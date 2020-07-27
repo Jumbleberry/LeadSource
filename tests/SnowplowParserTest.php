@@ -1,6 +1,6 @@
 <?php
 
-use PhpRefererParser\SnowplowParser;
+use JBX\RefererParser\SnowplowParser;
 use PHPUnit\Framework\TestCase;
 
 class SnowplowParserTest extends TestCase

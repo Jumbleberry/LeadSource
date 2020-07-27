@@ -1,5 +1,5 @@
 <?php
-namespace PhpSnowplowParser;
+namespace JBX\RefererParser;
 
 use \Snowplow\RefererParser\Config\ConfigReaderInterface;
 use \Snowplow\RefererParser\Parser;
