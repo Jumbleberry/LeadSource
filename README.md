@@ -18,15 +18,15 @@ php composer.phar require snowplow/referer-parser dev-master
 use Snowplow\RefererParser\Parser;
 
 $parser = new Parser();
-$referer = $parser->parse(
+$referrer = $parser->parse(
     'http://www.google.com/search?q=gateway+oracle+cards+denise+linn&hl=en&client=safari',
     'http:/www.psychicbazaar.com/shop'
 );
 
-if ($referer->isKnown()) {
-    echo $referer->getMedium(); // "Search"
-    echo $referer->getSource(); // "Google"
-    echo $referer->getSearchTerm();   // "gateway oracle cards denise linn"
+if ($referrer->isKnown()) {
+    echo $referrer->getMedium(); // "Search"
+    echo $referrer->getSource(); // "Google"
+    echo $referrer->getSearchTerm();   // "gateway oracle cards denise linn"
 }
 ```
 

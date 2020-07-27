@@ -17,12 +17,12 @@ class SnowplowParser extends Parser
 
     public function parseReferrer($page_referrer = null, $page_url = null, $useragent = null)
     {
-        $leadSource = $this->parseReferrerUrl($page_referrer, $page_url);
+        $referrer = $this->parseReferrerUrl($page_referrer, $page_url);
 
-        if (!$leadSource && $useragent) {
-            $leadSource = $this->parseUseragent($useragent);
+        if (!$referrer && $useragent) {
+            $referrer = $this->parseUseragent($useragent);
         }
-        return $leadSource;
+        return $referrer;
     }
 
     public function parseReferrerUrl($page_referrer = null, $page_url = null)
@@ -45,9 +45,9 @@ class SnowplowParser extends Parser
         }
     }
 
-    protected function parseUrlQuery($refererUrl, $pageUrl)
+    protected function parseUrlQuery($referrerUrl, $pageUrl)
     {
-        $query1 = explode('&', parse_url($refererUrl, PHP_URL_QUERY));
+        $query1 = explode('&', parse_url($referrerUrl, PHP_URL_QUERY));
         $query2 = explode('&', parse_url($pageUrl, PHP_URL_QUERY));
 
         $queryParams = array_map(function ($param) {
