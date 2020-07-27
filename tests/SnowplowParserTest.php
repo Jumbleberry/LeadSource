@@ -5,6 +5,16 @@ use PHPUnit\Framework\TestCase;
 
 class SnowplowParserTest extends TestCase
 {
+    /**
+     * @var SnowplowParser
+     */
+    private $parser;
+
+    public function setUp(): void
+    {
+        $this->parser = new SnowplowParser();
+    }
+
     public function testGetLeadSource_fromPageReferrer_Facebook()
     {
         $source = [
@@ -13,8 +23,8 @@ class SnowplowParserTest extends TestCase
             'useragent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.3.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5;FBCR/]',
             'refr_source'=>'Facebook'
         ];
-        $parser = new SnowplowParser();
-        $referer = $parser->getLeadSource($source);
+
+        $referer = $this->parser->parseReferrer($source['page_referrer'],$source['page_url'],$source['useragent']);
         $this->assertEquals('Facebook', $referer);
     }
     public function testGetLeadSource_fromPageReferrer_Youtube()
@@ -25,8 +35,7 @@ class SnowplowParserTest extends TestCase
             'useragent' => "Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1",
             'refr_source'=>'Youtube'
         ];
-        $parser = new SnowplowParser();
-        $referer = $parser->getLeadSource($source);
+        $referer = $this->parser->parseReferrer($source['page_referrer'],$source['page_url'],$source['useragent']);
         $this->assertEquals('Youtube', $referer);
     }
 
@@ -38,8 +47,7 @@ class SnowplowParserTest extends TestCase
             'useragent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Mobile/15E148 Safari/604.1',
             'refr_source' => 'Google'
         ];
-        $parser = new SnowplowParser();
-        $referer = $parser->getLeadSource($source);
+        $referer = $this->parser->parseReferrer($source['page_referrer'],$source['page_url'],$source['useragent']);
         $this->assertEquals('Google', $referer);
     }
 
@@ -51,8 +59,7 @@ class SnowplowParserTest extends TestCase
             'useragent' => "Mozilla/5.0 (Linux; Android 9; SM-G950W Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.101 Mobile Safari/537.36 Instagram 145.0.0.32.119 Android (28/9; 480dpi; 1080x2076; samsung; SM-G950W; dreamqltecan; qcom; en_CA; 219308759)",
             'refr_source'=> 'Instagram'
         ];
-        $parser = new SnowplowParser();
-        $referer = $parser->getLeadSource($source);
+        $referer = $this->parser->parseReferrer($source['page_referrer'],$source['page_url'],$source['useragent']);
         $this->assertEquals('Instagram', $referer);
     }
 
@@ -65,8 +72,7 @@ class SnowplowParserTest extends TestCase
             'useragent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362',
             'refr_source'=> null
         ];
-        $parser = new SnowplowParser();
-        $referer = $parser->getLeadSource($source);
+        $referer = $this->parser->parseReferrer($source['page_referrer'],$source['page_url'],$source['useragent']);
         $this->assertEquals('Facebook', $referer);
     }
 
@@ -78,8 +84,7 @@ class SnowplowParserTest extends TestCase
             'useragent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15',
             'refr_source'=> null
         ];
-        $parser = new SnowplowParser();
-        $referer = $parser->getLeadSource($source);
+        $referer = $this->parser->parseReferrer($source['page_referrer'],$source['page_url'],$source['useragent']);
         $this->assertEquals('Microsoft', $referer);
     }
 
@@ -91,8 +96,7 @@ class SnowplowParserTest extends TestCase
             'useragent' => "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.5 Mobile/15E148 Snapchat/10.80.5.79 (like Safari/604.1)",
             'refr_source'=> null
         ];
-        $parser = new SnowplowParser();
-        $referer = $parser->getLeadSource($source);
+        $referer = $this->parser->parseReferrer($source['page_referrer'],$source['page_url'],$source['useragent']);
         $this->assertEquals('Snapchat', $referer);
     }
 
@@ -104,8 +108,7 @@ class SnowplowParserTest extends TestCase
             'useragent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.5.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5]',
             'refr_source'=> null
         ];
-        $parser = new SnowplowParser();
-        $referer = $parser->getLeadSource($source);
+        $referer = $this->parser->parseReferrer($source['page_referrer'],$source['page_url'],$source['useragent']);
         $this->assertEquals('Facebook', $referer);
     }
 
@@ -117,8 +120,7 @@ class SnowplowParserTest extends TestCase
             'useragent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 146.0.0.21.122 (iPhone12,1; iOS 13_5_1; en_US; en-US; scale=2.00; 828x1792; 220223664)',
             'refr_source'=> null
         ];
-        $parser = new SnowplowParser();
-        $referer = $parser->getLeadSource($source);
+        $referer = $this->parser->parseReferrer($source['page_referrer'],$source['page_url'],$source['useragent']);
         $this->assertEquals('Instagram', $referer);
     }
 
@@ -130,8 +132,7 @@ class SnowplowParserTest extends TestCase
             'useragent' => 'Mozilla/5.0 (iPad; CPU OS 9_3_5 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G36 Twitter for iPhone/7.29.1',
             'refr_source'=> null
         ];
-        $parser = new SnowplowParser();
-        $referer = $parser->getLeadSource($source);
+        $referer = $this->parser->parseReferrer($source['page_referrer'],$source['page_url'],$source['useragent']);
         $this->assertEquals('Twitter', $referer);
     }
 }

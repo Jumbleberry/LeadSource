@@ -14,29 +14,29 @@ class SnowplowParser extends Parser
         $this->additionalConfig = static::createAdditionalConfigReader();
     }
 
-    public function getLeadSource($source)
+    public function parseReferrer($page_referrer = null, $page_url = null, $useragent = null)
     {
-        $leadSource = $this->parseReferrerUrl($source);
+        $leadSource = $this->parseReferrerUrl($page_referrer, $page_url);
 
-        if (!$leadSource) {
-            $leadSource = $this->parseUseragent($source);
+        if (!$leadSource && $useragent) {
+            $leadSource = $this->parseUseragent($useragent);
         }
         return $leadSource;
     }
 
-    public function parseReferrerUrl($source)
+    public function parseReferrerUrl($page_referrer = null, $page_url = null)
     {
-        if ($source['page_url'] || $source['page_referrer']) {
-            return parent::parse($source['page_referrer'], $source['page_url'])->getSource() ?? $this->parseUrlQuery($source['page_referrer'], $source['page_url']);
+        if ($page_referrer || $page_url ) {
+            return parent::parse($page_referrer, $page_url)->getSource() ?? $this->parseUrlQuery($page_referrer, $page_url);
         }
     }
 
-    public function parseUseragent($source)
+    public function parseUseragent($useragent)
     {
-        if ($source['useragent']) {
+        if ($useragent) {
             foreach ($this->additionalConfig as $key => $params) {
                 if (isset($params['regex'])
-                    && preg_match('/' . str_replace('/', '\/', str_replace('\/', '/', $params['regex'])) . '/i', $source['useragent'], $matches)
+                    && preg_match('/' . str_replace('/', '\/', str_replace('\/', '/', $params['regex'])) . '/i', $useragent, $matches)
                 ) {
                     return $key;
                 }
