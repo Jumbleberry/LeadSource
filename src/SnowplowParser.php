@@ -3,7 +3,9 @@
 namespace JBX\RefererParser;
 
 use Snowplow\RefererParser\Config\ConfigReaderInterface;
+use Snowplow\RefererParser\Medium;
 use Snowplow\RefererParser\Parser;
+use Snowplow\RefererParser\Referer;
 
 class SnowplowParser extends Parser
 {
@@ -12,12 +14,12 @@ class SnowplowParser extends Parser
     public function __construct(ConfigReaderInterface $configReader = null, array $internalHosts = [])
     {
         parent::__construct($configReader, $internalHosts);
-        $this->additionalConfig = static::createAdditionalConfigReader();
+        $this->additionalConfig = static::createAdditionalConfig();
     }
 
-    public function parseReferrer($page_referrer = null, $page_url = null, $useragent = null)
+    public function parseReferrer($pageReferrer = null, $pageUrl = null, $useragent = null)
     {
-        $referrer = $this->parseReferrerUrl($page_referrer, $page_url);
+        $referrer = $this->parseReferrerUrl($pageReferrer, $pageUrl);
 
         if (!$referrer && $useragent) {
             $referrer = $this->parseUseragent($useragent);
@@ -25,10 +27,10 @@ class SnowplowParser extends Parser
         return $referrer;
     }
 
-    public function parseReferrerUrl($page_referrer = null, $page_url = null)
+    public function parseReferrerUrl($pageReferrer = null, $pageUrl = null)
     {
-        if ($page_referrer || $page_url) {
-            return parent::parse($page_referrer, $page_url)->getSource() ?? $this->parseUrlQuery($page_referrer, $page_url);
+        if ($pageReferrer || $pageUrl) {
+            return parent::parse($pageReferrer, $pageUrl)->getSource() ?? ($this->parseUrlQuery($pageReferrer, $pageUrl))->getSource();
         }
     }
 
@@ -43,6 +45,7 @@ class SnowplowParser extends Parser
                 }
             }
         }
+        return Referer::createUnknown();
     }
 
     protected function parseUrlQuery($referrerUrl, $pageUrl)
@@ -55,13 +58,15 @@ class SnowplowParser extends Parser
         }, array_merge($query1, $query2));
 
         foreach ($this->additionalConfig as $key => $params) {
-            if (isset($params['identifiers']) && in_array($params['identifiers'], $queryParams)) {
-                return $key;
+            if (isset($params['identifier']) && in_array($params['identifier'], $queryParams)) {
+                return Referer::createKnown(Medium::UNKNOWN, $key, '');
             }
         }
+
+        return Referer::createUnknown();
     }
 
-    protected static function createAdditionalConfigReader()
+    protected static function createAdditionalConfig()
     {
         $file = file_get_contents('data/referers.json');
         return json_decode($file, true);
