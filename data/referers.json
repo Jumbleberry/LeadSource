@@ -1,0 +1,18 @@
+{
+  "Facebook" : {
+    "regex": "FBAN/FBIOS;FBDV",
+    "identifiers": "fbclid"
+  },
+  "Instagram": {
+    "regex": "Instagram"
+  },
+  "Microsoft": {
+    "identifiers": "msclkid"
+  },
+  "Snapchat": {
+    "regex": "Snapchat"
+  },
+  "Twitter": {
+    "regex": "Twitter"
+  }
+}

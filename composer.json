@@ -1,0 +1,20 @@
+{
+  "name": "jumbleberry/php-referer-parser",
+  "description": "Snowplow Refer(r)er parser for PHP with useragent",
+  "minimum-stability": "stable",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Paulina Walas",
+      "email": "paulina.walas@jumbleberry.com"
+    }
+  ],
+  "config": {
+    "vendor-dir": "vendor"
+  },
+  "autoload": {
+    "psr-4": {
+      "PhpRefererParser\\": "../src/"
+    }
+  }
+}
