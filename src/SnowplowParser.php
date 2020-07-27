@@ -1,8 +1,9 @@
 <?php
+
 namespace JBX\RefererParser;
 
-use \Snowplow\RefererParser\Config\ConfigReaderInterface;
-use \Snowplow\RefererParser\Parser;
+use Snowplow\RefererParser\Config\ConfigReaderInterface;
+use Snowplow\RefererParser\Parser;
 
 class SnowplowParser extends Parser
 {
@@ -26,7 +27,7 @@ class SnowplowParser extends Parser
 
     public function parseReferrerUrl($page_referrer = null, $page_url = null)
     {
-        if ($page_referrer || $page_url ) {
+        if ($page_referrer || $page_url) {
             return parent::parse($page_referrer, $page_url)->getSource() ?? $this->parseUrlQuery($page_referrer, $page_url);
         }
     }
