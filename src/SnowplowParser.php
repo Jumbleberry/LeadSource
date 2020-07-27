@@ -22,8 +22,9 @@ class SnowplowParser extends Parser
         $referrer = $this->parseReferrerUrl($pageReferrer, $pageUrl);
 
         if (!$referrer && $useragent) {
-            $referrer = $this->parseUseragent($useragent);
+            $referrer = $this->parseUseragent($useragent)->getSource();
         }
+
         return $referrer;
     }
 
@@ -41,10 +42,11 @@ class SnowplowParser extends Parser
                 if (isset($params['regex'])
                     && preg_match('/' . str_replace('/', '\/', str_replace('\/', '/', $params['regex'])) . '/i', $useragent, $matches)
                 ) {
-                    return $key;
+                    return Referer::createKnown(Medium::UNKNOWN, $key, '');
                 }
             }
         }
+
         return Referer::createUnknown();
     }
 
