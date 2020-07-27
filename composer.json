@@ -9,6 +9,9 @@
       "email": "paulina.walas@jumbleberry.com"
     }
   ],
+  "require-dev": {
+    "phpunit/phpunit": "9.1.5"
+  },
   "config": {
     "vendor-dir": "vendor"
   },
