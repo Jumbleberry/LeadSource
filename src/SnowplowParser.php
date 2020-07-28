@@ -3,7 +3,6 @@
 namespace JBX\RefererParser;
 
 use Snowplow\RefererParser\Config\ConfigReaderInterface;
-use Snowplow\RefererParser\Medium;
 use Snowplow\RefererParser\Parser;
 use Snowplow\RefererParser\Referer;
 
@@ -21,44 +20,37 @@ class SnowplowParser extends Parser
     {
         $referrer = $this->parseReferrerUrl($pageReferrer, $pageUrl);
 
-        if (!$referrer->isKnown() && $useragent) {
-            $referrer = $this->parseUseragent($useragent);
+        if (!empty($referrer->getSource())) {
+            return $referrer;
         }
-
-        return $referrer;
+        if ($useragent) {
+            return $this->parseUseragent($useragent);
+        }
     }
 
     public function parseReferrerUrl($pageReferrer = null, $pageUrl = null)
     {
         if ($pageReferrer || $pageUrl) {
             $referrer = parent::parse($pageReferrer, $pageUrl);
-            return $referrer->isKnown() ? $referrer : ($this->parseUrlQuery($pageReferrer, $pageUrl));
-        }
-    }
 
-    //overwrite method to add 'android-app' as scheme
-    protected static function parseUrl($url)
-    {
-        if ($url === null) {
-            return null;
-        }
+            if (empty($referrer->getSource())) {
+                return $this->parseUrlQuery($pageReferrer, $pageUrl);
+            }
 
-        $parts = parse_url($url);
-        if (!isset($parts['scheme']) || !in_array(strtolower($parts['scheme']), ['http', 'https', 'android-app'])) {
-            return null;
+            return $referrer;
         }
-
-        return array_merge(['query' => null, 'path' => '/'], $parts);
     }
 
     public function parseUseragent($useragent)
     {
         if ($useragent) {
-            foreach ($this->additionalConfig as $key => $params) {
-                if (isset($params['regexes'])) {
-                    foreach ($params['regexes'] as $regex) {
-                        if (preg_match('/' . str_replace('/', '\/', str_replace('\/', '/', $regex)) . '/i', $useragent, $matches)) {
-                            return Referer::createKnown($params['medium'], $key, '');
+            foreach ($this->additionalConfig as $medium => $sources) {
+                foreach ($sources as $sourceName => $sourceParam) {
+                    if (isset($sourceParam['regexes'])) {
+                        foreach ($sourceParam['regexes'] as $regex) {
+                            if (preg_match('/' . str_replace('/', '\/', str_replace('\/', '/', $regex)) . '/i', $useragent, $matches)) {
+                                return Referer::createKnown($medium, $sourceName, '');
+                            }
                         }
                     }
                 }
@@ -77,9 +69,11 @@ class SnowplowParser extends Parser
             return explode('=', $param)[0];
         }, array_merge($query1, $query2));
 
-        foreach ($this->additionalConfig as $key => $params) {
-            if (isset($params['identifier']) && in_array($params['identifier'], $queryParams)) {
-                return Referer::createKnown($params['medium'], $key, '');
+        foreach ($this->additionalConfig as $medium => $sources) {
+            foreach ($sources as $sourceName => $sourceParam) {
+                if (isset($sourceParam['identifier']) && in_array($sourceParam['identifier'], $queryParams)) {
+                    return Referer::createKnown($medium, $sourceName, '');
+                }
             }
         }
 
@@ -90,5 +84,20 @@ class SnowplowParser extends Parser
     {
         $file = file_get_contents('data/referers.json');
         return json_decode($file, true);
+    }
+
+    //overwrite method to add 'android-app' as scheme
+    protected static function parseUrl($url)
+    {
+        if ($url === null) {
+            return null;
+        }
+
+        $parts = parse_url($url);
+        if (!isset($parts['scheme']) || !in_array(strtolower($parts['scheme']), ['http', 'https', 'android-app'])) {
+            return null;
+        }
+
+        return array_merge(['query' => null, 'path' => '/'], $parts);
     }
 }

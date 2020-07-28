@@ -1,23 +1,42 @@
 {
-  "Facebook" : {
-    "regexes": ["FBAN/FBIOS;FBDV","FB_IAB","FBMD/iPhone"],
-    "identifier": "fbclid",
-    "medium": "social"
+  "social": {
+    "Facebook": {
+      "regexes": [
+        "FBAN/FBIOS;FBDV",
+        "FB_IAB",
+        "FBMD/iPhone"
+      ],
+      "identifier": "fbclid",
+      "medium": "social"
+    },
+    "Instagram": {
+      "regexes": [
+        "Instagram"
+      ],
+      "medium": "social"
+    },
+    "Snapchat": {
+      "regexes": [
+        "Snapchat"
+      ],
+      "medium": "social"
+    },
+    "Twitter": {
+      "regexes": [
+        "Twitter"
+      ],
+      "medium": "social"
+    },
+    "Outbrain": {
+      "domains": [
+        "paid.outbrain.com"
+      ]
+    }
   },
-  "Instagram": {
-    "regexes": ["Instagram"],
-    "medium": "social"
-  },
-  "Bing": {
-    "identifier": "msclkid",
-    "medium": "search"
-  },
-  "Snapchat": {
-    "regexes": ["Snapchat"],
-    "medium": "social"
-  },
-  "Twitter": {
-    "regexes": ["Twitter"],
-    "medium": "social"
+  "search": {
+    "Bing": {
+      "identifier": "msclkid",
+      "medium": "search"
+    }
   }
 }

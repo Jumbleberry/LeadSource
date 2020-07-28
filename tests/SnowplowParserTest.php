@@ -75,6 +75,17 @@ class SnowplowParserTest extends TestCase
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Facebook', $referrer->getSource());
     }
+    public function testParseReferrer_fromPageReferrer_Outbraink()
+    {
+        $source = [
+            'page_url'      => 'https://healthybear.co/hanacure/press/v2.html?utm_source=jb&utm_medium=384771&utm_campaign=jbbuypresell&click_id=GzBpB8_X8JdlPO698waBwKZU6hj_rPR2WSndDf03Qq7ZilMNJlA9z7BP95C3GNZZ%2F11%2F0195ae608e5441cbbac377883da22e57%2F',
+            'page_referrer' => 'https://paid.outbrain.com/network/redir?p=45kFZYSRlS_S5v3xNDYHLKnQGQl38wY_J4K57qDiDAVJAvGamPQlYpKvwjjV05a4PjO0A7PIkvXTKzhEQaGQ0z6gU_N1GHJFQrmsxVXbpk9v-WrMD3SE64Skv9o-NLrVqK4H_eA6F2QMdoc2jg5SODdy-o3nGJ-Z1jxdMHC-LFTUFretkknMrQZnQ2QEEA9SAza8YWH_HWq7aYmu6V044pmI_iB_0EhMa8Lk77U4XlBYnPA3Tgq0bbCwMyiPctURNhycoGyx8jseE8T1rbxw9ADyZssAMV6Fz5aePha_dUEJ55BEYJ0LS8Z4inYmW1wYLlyj1uHLbegyrlZPlVEMCeMiAiZvbfr4WOW9n2YMinLyFV6IDrt3YSFg5N3Xz3pI3rHdPABHnEHTa6oazM-sxWEYknWw62qGwxUKWWOL8sUxMHc_mYPeTS8X2vj7asI1KPDChqN58bxEULe_1T4wWoLzKa8r13D_qn3rbm-Kni4KoZxf4UDAySQvLXKuCuQ9rFDzqg8uxR0f5niddSlT2uK3_FdZJog4r5faxDJlHSNR3bInj6AsFDVV69RCl86bWGHcZ4OL8LPCLdYZAN-qU-vjJR3dTGlDavOTOyWrFvdPVsdQLP7Nbc5Ln0sqvO13o0Rmg0AFwk-MJ8PosxJvajrfwosk_nl-h6gkF5DEXRjzHh0a0ykL0mQTnpYX-vjSF2zYsk5qL46XjZh7iaWrl5wV02wHqQNVQ1GSrjyv_bu9bE9ZvXPXV3TOjeIb9mJv_hPCc8qHj9b8UkLfCQ9LFv5m4QWx9Vp9y1nl4XRIWzHSYSks7-0W3hIp2pIOSOUx7_Aofx-U8938qlVoOAaGEM1v4Zf1th7EldDfuddA6cVDEaL2INk28Eht5H54yzY6AfmS_bSNxENXjLFpFZ2H2JLK5ClpVDYqYqRfOxhGDbgs14fEWD11PysrYqoaQAXwufZXORvOhMFM9qYEuVwNoekRB230L_j9GE5gvKdcVFBBrPc0u1D0F3MYeY47QpNV2NSQAUtPHcwEXFk-qfCEbZ2l5pHChbnnIR28V31Ml8HCktaBBcOwvtTFkfZZS6jPpbLt66nhI8GpbZ7xU_swTzxIdNhVZIyEkE8UyNGpXfi6NDzSWkAS4q4yUGjnkA3BfN1RUbuHfH7E9L6K2mk4b6FPQ9nAlKBrcXtYTxgwx1Zz2mhi8E4FazumlC3RpOQRTuiYZOoDvLiAMHRsuC60ZMYyspZEJVSnAI5Ie2qooLpfchABT-yb1iX_QdO32yhsjiRgvpHYrroWkUAOj_xVYvMnYn5uaISe1rEQYoSZtXhROih4oUWT16AVl5v5l7ozbOt5IMbB9P7J1K9qMdaBYPfvlpm6xn-uLvhkWqFpvgWt-gWWO96wfHnFwI-brr_V&c=d6d0d1b7&v=3',
+            'useragent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/69.1.238102067 Mobile/15E148 Safari/605.1',
+            'refr_source'   => 'Outbrain'
+        ];
+        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $this->assertEquals('Outbrain', $referrer->getSource());
+    }
 
     public function testParseReferrer_fromPageReferrer_withMsclkid_Bing()
     {
@@ -136,11 +147,11 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Twitter', $referrer->getSource());
     }
 
-    public function testParseReferrer_fileWith1000Lines()
+    public function testParseReferrer_fileWith5000Lines()
     {
         $emptyRefSource = 0;
-        $h = fopen("tests/data/referrers.csv", "r");
-        while (($row = fgetcsv($h, 3000, "|")) !== FALSE)
+        $h = fopen("tests/data/referrers5000.csv", "r");
+        while (($row = fgetcsv($h, 5000, "|")) !== FALSE)
         {
             $rows[] = $row;
             if (empty($row[3]))
@@ -148,9 +159,9 @@ class SnowplowParserTest extends TestCase
         }
         fclose($h);
 
-        //File has 1000 lines, 363 have empty ref_source
-        $this->assertEquals('1000', count($rows));
-        $this->assertEquals('363', $emptyRefSource);
+        //File has 5000 lines, 1599 have empty ref_source
+        $this->assertEquals('5000', count($rows));
+        $this->assertEquals('1598', $emptyRefSource);
 
         $newEmptyRefSource = 0;
         foreach ($rows as $source) {
@@ -159,7 +170,7 @@ class SnowplowParserTest extends TestCase
             if (!$ref->isKnown()) {
                 $newEmptyRefSource++;
             } else {
-                //compare previous refr_source is the same as result from parseReferrer
+                // compare previous refr_source is the same as result from parseReferrer
                 if (!empty($source[3])) {
                     $this->assertEquals($source[3], $ref->getSource());
                 }
@@ -167,8 +178,8 @@ class SnowplowParserTest extends TestCase
 
         }
 
-        //after additional parsing for 1000 lines, 80 have empty ref_source 
-        $this->assertEquals('80', $newEmptyRefSource);
+        //after additional parsing for 5000 lines, 386 have empty ref_source (92.28% lead sources found)
+        $this->assertEquals('386', $newEmptyRefSource);
     }
 
     public function testParseObject()

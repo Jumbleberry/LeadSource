@@ -9,6 +9,7 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
+         testdox="true"
 >
     <testsuites>
         <testsuite name="snowplow/referer-parser">
