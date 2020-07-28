@@ -24,7 +24,7 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => 'Facebook'
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Facebook', $referrer);
+        $this->assertEquals('Facebook', $referrer->getSource());
     }
 
     public function testParseReferrer_fromPageReferrer_Youtube()
@@ -36,7 +36,7 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => 'Youtube'
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Youtube', $referrer);
+        $this->assertEquals('Youtube', $referrer->getSource());
     }
 
     public function testParseReferrer_fromPageReferrer_Google()
@@ -48,7 +48,7 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => 'Google'
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Google', $referrer);
+        $this->assertEquals('Google', $referrer->getSource());
     }
 
     public function testParseReferrer_fromPageReferrer_Instagram()
@@ -60,7 +60,7 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => 'Instagram'
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Instagram', $referrer);
+        $this->assertEquals('Instagram', $referrer->getSource());
     }
 
     public function testParseReferrer_fromPageReferrer_withFbClid_Facebook()
@@ -73,7 +73,7 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => null
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Facebook', $referrer);
+        $this->assertEquals('Facebook', $referrer->getSource());
     }
 
     public function testParseReferrer_fromPageReferrer_withMsclkid_Bing()
@@ -85,7 +85,7 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => null
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Bing', $referrer);
+        $this->assertEquals('Bing', $referrer->getSource());
     }
 
     public function testParseReferrer_fromUserAgent_Snapchat()
@@ -97,7 +97,7 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => null
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Snapchat', $referrer);
+        $this->assertEquals('Snapchat', $referrer->getSource());
     }
 
     public function testParseReferrer_fromUserAgent_Facebook()
@@ -109,7 +109,7 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => null
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Facebook', $referrer);
+        $this->assertEquals('Facebook', $referrer->getSource());
     }
 
     public function testParseReferrer_fromUserAgent_Instagram()
@@ -121,7 +121,7 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => null
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Instagram', $referrer);
+        $this->assertEquals('Instagram', $referrer->getSource());
     }
 
     public function testParseReferrer_fromUserAgent_Twitter()
@@ -133,9 +133,9 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => null
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Twitter', $referrer);
+        $this->assertEquals('Twitter', $referrer->getSource());
     }
-    
+
     public function testParseReferrer_fileWith1000Lines()
     {
         $emptyRefSource = 0;
@@ -156,18 +156,18 @@ class SnowplowParserTest extends TestCase
         foreach ($rows as $source) {
             $ref = $this->parser->parseReferrer($source[1], $source[0], $source[2]);
 
-            if (empty($ref)) {
+            if (!$ref->isKnown()) {
                 $newEmptyRefSource++;
             } else {
                 //compare previous refr_source is the same as result from parseReferrer
                 if (!empty($source[3])) {
-                    $this->assertEquals($source[3], $ref);
+                    $this->assertEquals($source[3], $ref->getSource());
                 }
             }
 
         }
 
-        //after additional parsing for 1000 lines, 148 have empty ref_source
+        //after additional parsing for 1000 lines, 150 have empty ref_source
         $this->assertEquals('148', $newEmptyRefSource);
     }
 }

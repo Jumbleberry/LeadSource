@@ -21,8 +21,8 @@ class SnowplowParser extends Parser
     {
         $referrer = $this->parseReferrerUrl($pageReferrer, $pageUrl);
 
-        if (!$referrer && $useragent) {
-            $referrer = $this->parseUseragent($useragent)->getSource();
+        if (!$referrer->isKnown() && $useragent) {
+            $referrer = $this->parseUseragent($useragent);
         }
 
         return $referrer;
@@ -31,7 +31,8 @@ class SnowplowParser extends Parser
     public function parseReferrerUrl($pageReferrer = null, $pageUrl = null)
     {
         if ($pageReferrer || $pageUrl) {
-            return parent::parse($pageReferrer, $pageUrl)->getSource() ?? ($this->parseUrlQuery($pageReferrer, $pageUrl))->getSource();
+            $referrer = parent::parse($pageReferrer, $pageUrl);
+            return $referrer->isKnown() ? $referrer : ($this->parseUrlQuery($pageReferrer, $pageUrl));
         }
     }
 
