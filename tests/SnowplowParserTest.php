@@ -76,7 +76,7 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Facebook', $referrer);
     }
 
-    public function testParseReferrer_fromPageReferrer_withMsclkid_Microsoft()
+    public function testParseReferrer_fromPageReferrer_withMsclkid_Bing()
     {
         $source = [
             'page_url'      => 'https://glamnetic.com/?utm_source=jumbleberry&utm_medium=380164&utm_campaign=jbecom&click_id=zcW-Fu9kHp-d_C-p3tBV9Zaemyug5ErfuIYTK_cK-4Nm8uMe78NKo-dWJeuP8Qv8%2F%2F%2F',
@@ -85,7 +85,7 @@ class SnowplowParserTest extends TestCase
             'refr_source'   => null
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals('Microsoft', $referrer);
+        $this->assertEquals('Bing', $referrer);
     }
 
     public function testParseReferrer_fromUserAgent_Snapchat()
@@ -142,23 +142,32 @@ class SnowplowParserTest extends TestCase
         $h = fopen("tests/data/referrers.csv", "r");
         while (($row = fgetcsv($h, 3000, "|")) !== FALSE)
         {
-            $sources[] = $row;
+            $rows[] = $row;
             if (empty($row[3]))
                 $emptyRefSource++;
         }
         fclose($h);
 
-        //File has 1000 cases, 363 have empty ref_source
-        $this->assertEquals('1000', count($sources));
+        //File has 1000 lines, 363 have empty ref_source
+        $this->assertEquals('1000', count($rows));
         $this->assertEquals('363', $emptyRefSource);
 
         $newEmptyRefSource = 0;
-        foreach ($sources as $source) {
-                if (is_null(($ref = $this->parser->parseReferrer($source[1], $source[0], $source[2]))))
-                    $newEmptyRefSource++;
+        foreach ($rows as $source) {
+            $ref = $this->parser->parseReferrer($source[1], $source[0], $source[2]);
+
+            if (empty($ref)) {
+                $newEmptyRefSource++;
+            } else {
+                //compare previous refr_source is the same as result from parseReferrer
+                if (!empty($source[3])) {
+                    $this->assertEquals($source[3], $ref);
+                }
+            }
+
         }
 
-        //after additional parsing for 1000 cases only 148 have empty ref_source
+        //after additional parsing for 1000 lines, 148 have empty ref_source
         $this->assertEquals('148', $newEmptyRefSource);
     }
 }

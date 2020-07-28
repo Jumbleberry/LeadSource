@@ -42,7 +42,7 @@ class SnowplowParser extends Parser
                 if (isset($params['regex'])
                     && preg_match('/' . str_replace('/', '\/', str_replace('\/', '/', $params['regex'])) . '/i', $useragent, $matches)
                 ) {
-                    return Referer::createKnown(Medium::UNKNOWN, $key, '');
+                    return Referer::createKnown($params['medium'], $key, '');
                 }
             }
         }
@@ -61,7 +61,7 @@ class SnowplowParser extends Parser
 
         foreach ($this->additionalConfig as $key => $params) {
             if (isset($params['identifier']) && in_array($params['identifier'], $queryParams)) {
-                return Referer::createKnown(Medium::UNKNOWN, $key, '');
+                return Referer::createKnown($params['medium'], $key, '');
             }
         }
 
