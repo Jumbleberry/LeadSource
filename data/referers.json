@@ -1,6 +1,6 @@
 {
   "Facebook" : {
-    "regexes": ["FBAN/FBIOS;FBDV","FB_IAB"],
+    "regexes": ["FBAN/FBIOS;FBDV","FB_IAB","FBMD/iPhone"],
     "identifier": "fbclid",
     "medium": "social"
   },

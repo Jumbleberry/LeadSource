@@ -36,6 +36,21 @@ class SnowplowParser extends Parser
         }
     }
 
+    //overwrite method to add 'android-app' as scheme
+    protected static function parseUrl($url)
+    {
+        if ($url === null) {
+            return null;
+        }
+
+        $parts = parse_url($url);
+        if (!isset($parts['scheme']) || !in_array(strtolower($parts['scheme']), ['http', 'https', 'android-app'])) {
+            return null;
+        }
+
+        return array_merge(['query' => null, 'path' => '/'], $parts);
+    }
+
     public function parseUseragent($useragent)
     {
         if ($useragent) {
