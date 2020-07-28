@@ -1,11 +1,11 @@
 {
   "Facebook" : {
-    "regex": "FBAN/FBIOS;FBDV",
+    "regexes": ["FBAN/FBIOS;FBDV","FB_IAB"],
     "identifier": "fbclid",
     "medium": "social"
   },
   "Instagram": {
-    "regex": "Instagram",
+    "regexes": ["Instagram"],
     "medium": "social"
   },
   "Bing": {
@@ -13,11 +13,11 @@
     "medium": "search"
   },
   "Snapchat": {
-    "regex": "Snapchat",
+    "regexes": ["Snapchat"],
     "medium": "social"
   },
   "Twitter": {
-    "regex": "Twitter",
+    "regexes": ["Twitter"],
     "medium": "social"
   }
 }
