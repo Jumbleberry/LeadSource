@@ -170,4 +170,20 @@ class SnowplowParserTest extends TestCase
         //after additional parsing for 1000 lines, 150 have empty ref_source
         $this->assertEquals('80', $newEmptyRefSource);
     }
+
+    public function testParseObject()
+    {
+        $source = [
+            'page_url'      => 'https://buy.hanacure.com/?utm_source=jb&utm_medium=384826&utm_campaign=jbbuypresell&click_id=TvP5Pm87uIif6bLeiNG5CDPSpfxSqULS0xKoN1028ayowkrDsuy8qQbWn_W76XV3%2F%7BFBFem25%7D%2F%7Bvid1%7D%2F%7BJac%7D',
+            'page_referrer' => 'http://m.facebook.com',
+            'useragent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.3.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5;FBCR/]',
+        ];
+        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+
+        $this->assertEquals('Facebook', $referrer->getSource());
+        $this->assertEquals('social', $referrer->getMedium());
+        $this->assertEquals('', $referrer->getSearchTerm());
+        $this->assertEquals(true, $referrer->isKnown());
+        $this->assertEquals(true, $referrer->isValid());
+    }
 }
