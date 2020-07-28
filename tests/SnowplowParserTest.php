@@ -15,7 +15,7 @@ class SnowplowParserTest extends TestCase
         $this->parser = new SnowplowParser();
     }
 
-    public function testGetLeadSource_fromPageReferrer_Facebook()
+    public function testParseReferrer_fromPageReferrer_Facebook()
     {
         $source = [
             'page_url'      => 'https://buy.hanacure.com/?utm_source=jb&utm_medium=384826&utm_campaign=jbbuypresell&click_id=TvP5Pm87uIif6bLeiNG5CDPSpfxSqULS0xKoN1028ayowkrDsuy8qQbWn_W76XV3%2F%7BFBFem25%7D%2F%7Bvid1%7D%2F%7BJac%7D',
@@ -27,7 +27,7 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Facebook', $referrer);
     }
 
-    public function testGetLeadSource_fromPageReferrer_Youtube()
+    public function testParseReferrer_fromPageReferrer_Youtube()
     {
         $source = [
             'page_url'      => 'https://glamnetic.com/?utm_source=jumbleberry&utm_medium=383591&utm_campaign=jbecom&click_id=03eNPLNCE62qmxzeC81gZfSVIwBQUcxl277lLQiE4UoWwD3AbC_-bmRj7exB58nO%2Fgoogle%2FEAIaIQobChMIqbLB87q36gIVx9B8Ch1SWQiVEAEYASAAEgKvgfD_BwE%2F&gclid=EAIaIQobChMIqbLB87q36gIVx9B8Ch1SWQiVEAEYASAAEgKvgfD_BwE',
@@ -39,7 +39,7 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Youtube', $referrer);
     }
 
-    public function testGetLeadSource_fromPageReferrer_Google()
+    public function testParseReferrer_fromPageReferrer_Google()
     {
         $source = [
             'page_url'      => 'https://glamnetic.com/?utm_source=jumbleberry&utm_medium=383591&utm_campaign=jbecom&click_id=03eNPLNCE62qmxzeC81gZfSVIwBQUcxl277lLQiE4UoWwD3AbC_-bmRj7exB58nO%2Fgoogle%2FCj0KCQjwn7j2BRDrARIsAHJkxmwsjgiCIG6x05otIf0QwJKHoLPP_NKkVT06TheUJ7qt101N943D7yMaAtxyEALw_wcB%2F&gclid=Cj0KCQjwn7j2BRDrARIsAHJkxmwsjgiCIG6x05otIf0QwJKHoLPP_NKkVT06TheUJ7qt101N943D7yMaAtxyEALw_wcB',
@@ -51,7 +51,7 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Google', $referrer);
     }
 
-    public function testGetLeadSource_fromPageReferrer_Instagram()
+    public function testParseReferrer_fromPageReferrer_Instagram()
     {
         $source = [
             'page_url'      => 'https://article.onnit.com/productivity/?utm_medium=jumbleberry&utm_campaign=affiliate&utm_content=alpha-brain-offer-jmbb&utm_source=383591&jmb_cid=03eNPLNCE62qmxzeC81gZfurwvmotGCq3aDQNxgfYOeej8MNCDfkPHQKwuyXnYNZ%2Ffacebook%2F%2F',
@@ -63,7 +63,7 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Instagram', $referrer);
     }
 
-    public function testGetLeadSource_fromPageReferrer_withFbClid_Facebook()
+    public function testParseReferrer_fromPageReferrer_withFbClid_Facebook()
     {
 
         $source = [
@@ -76,7 +76,7 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Facebook', $referrer);
     }
 
-    public function testGetLeadSource_fromPageReferrer_withMsclkid_Microsoft()
+    public function testParseReferrer_fromPageReferrer_withMsclkid_Microsoft()
     {
         $source = [
             'page_url'      => 'https://glamnetic.com/?utm_source=jumbleberry&utm_medium=380164&utm_campaign=jbecom&click_id=zcW-Fu9kHp-d_C-p3tBV9Zaemyug5ErfuIYTK_cK-4Nm8uMe78NKo-dWJeuP8Qv8%2F%2F%2F',
@@ -88,7 +88,7 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Microsoft', $referrer);
     }
 
-    public function testGetLeadSource_fromUserAgent_Snapchat()
+    public function testParseReferrer_fromUserAgent_Snapchat()
     {
         $source = [
             'page_url'      => 'https://www.onnit.com/alpha-brain-offer-jmb/?utm_medium=jumbleberry&utm_campaign=affiliate&utm_content=alpha-brain-offer-jmbb&utm_source=384596&jmb_cid=177d63d4-1e08-4b0a-984e-bd9fc11c5ef8',
@@ -100,7 +100,7 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Snapchat', $referrer);
     }
 
-    public function testGetLeadSource_fromUserAgent_Facebook()
+    public function testParseReferrer_fromUserAgent_Facebook()
     {
         $source = [
             'page_url'      => 'https://www.hanacure.com/products/the-all-in-one-facial-set?utm_source=jb&utm_medium=383466&utm_campaign=jbbuypresell&click_id=06a36c1b-2932-4705-93b7-d120a2d54fc1',
@@ -112,7 +112,7 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Facebook', $referrer);
     }
 
-    public function testGetLeadSource_fromUserAgent_Instagram()
+    public function testParseReferrer_fromUserAgent_Instagram()
     {
         $source = [
             'page_url'      => 'https://buy.hanacure.com/?utm_source=jb&utm_medium=384826&utm_campaign=jbbuypresell&click_id=65263242-6798-4e47-bde1-23ec6d02e11e',
@@ -124,7 +124,7 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals('Instagram', $referrer);
     }
 
-    public function testGetLeadSource_fromUserAgent_Twitter()
+    public function testParseReferrer_fromUserAgent_Twitter()
     {
         $source = [
             'page_url'      => 'https://blog.hoomsleep.com/v3/?utm_source=jumbleberry&utm_campaign=jbpresell&utm_content=v3&utm_medium=384041&click_id=ddb272b2-07e9-4608-91b9-b4e96e80609e',
@@ -134,5 +134,31 @@ class SnowplowParserTest extends TestCase
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Twitter', $referrer);
+    }
+    
+    public function testParseReferrer_fileWith1000Lines()
+    {
+        $emptyRefSource = 0;
+        $h = fopen("tests/data/referrers.csv", "r");
+        while (($row = fgetcsv($h, 3000, "|")) !== FALSE)
+        {
+            $sources[] = $row;
+            if (empty($row[3]))
+                $emptyRefSource++;
+        }
+        fclose($h);
+
+        //File has 1000 cases, 363 have empty ref_source
+        $this->assertEquals('1000', count($sources));
+        $this->assertEquals('363', $emptyRefSource);
+
+        $newEmptyRefSource = 0;
+        foreach ($sources as $source) {
+                if (is_null(($ref = $this->parser->parseReferrer($source[1], $source[0], $source[2]))))
+                    $newEmptyRefSource++;
+        }
+
+        //after additional parsing for 1000 cases only 148 have empty ref_source
+        $this->assertEquals('148', $newEmptyRefSource);
     }
 }
