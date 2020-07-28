@@ -159,7 +159,7 @@ class SnowplowParserTest extends TestCase
         }
         fclose($h);
 
-        //File has 5000 lines, 1599 have empty ref_source
+        //File has 5000 lines, 1598 lines have empty ref_source, so this means that the library found 68.04% lead sources.
         $this->assertEquals('5000', count($rows));
         $this->assertEquals('1598', $emptyRefSource);
 
@@ -175,10 +175,9 @@ class SnowplowParserTest extends TestCase
                     $this->assertEquals($source[3], $ref->getSource());
                 }
             }
-
         }
 
-        //after additional parsing for 5000 lines, 386 have empty ref_source (92.28% lead sources found)
+        //after additional parsing, for 5000 lines, 386 have empty ref_source, so 92.28% lead sources were found.
         $this->assertEquals('386', $newEmptyRefSource);
     }
 
