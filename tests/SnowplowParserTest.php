@@ -167,7 +167,7 @@ class SnowplowParserTest extends TestCase
 
         }
 
-        //after additional parsing for 1000 lines, 150 have empty ref_source
+        //after additional parsing for 1000 lines, 80 have empty ref_source 
         $this->assertEquals('80', $newEmptyRefSource);
     }
 
