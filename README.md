@@ -19,5 +19,11 @@ $referrer = $parser->parse(
     'http://m.facebook.com',
     'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.5.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5]'
 );
-echo $referrer->getSource(); // "Facebook"
+
+if ($referrer->isKnown()) {
+    echo $referrer->getMedium(); // "Social"
+    echo $referrer->getSource(); // "Facebook"
+    echo $referrer->getSearchTerm();   // ""
+}
+
 ```
