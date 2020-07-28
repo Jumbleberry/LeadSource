@@ -6,3 +6,4 @@ vendor
 /.idea
 /build
 /.idea/php.xml
+.DS_Store
