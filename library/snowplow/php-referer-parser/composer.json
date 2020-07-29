@@ -3,7 +3,7 @@
   "description": "Snowplow Refer(r)er parser for PHP",
   "type": "library",
   "require-dev": {
-    "phpunit/phpunit": "3.*",
+    "../../../vendor/phpunit/phpunit": "3.*",
     "symfony/yaml": "*"
   },
   "suggest": {

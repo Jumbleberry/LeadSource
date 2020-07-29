@@ -18,7 +18,7 @@
   "autoload": {
     "psr-4": {
       "JBX\\RefererParser\\": "src/",
-      "Snowplow\\RefererParser\\": "vendor/snowplow/php-referer-parser/src/Snowplow/RefererParser/"
+      "Snowplow\\RefererParser\\": "library/snowplow/php-referer-parser/src/Snowplow/RefererParser/"
     }
   }
 }
