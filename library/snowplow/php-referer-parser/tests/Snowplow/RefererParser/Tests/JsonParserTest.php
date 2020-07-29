@@ -1,8 +1,8 @@
 <?php
-namespace Library\Snowplow\RefererParser\Tests;
+namespace Snowplow\RefererParser\Library\Tests;
 
-use Library\Snowplow\RefererParser\Config\JsonConfigReader;
-use Library\Snowplow\RefererParser\Parser;
+use Snowplow\RefererParser\Library\Config\JsonConfigReader;
+use Snowplow\RefererParser\Library\Parser;
 
 class JsonParserTest extends AbstractParserTest
 {

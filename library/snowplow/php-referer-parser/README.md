@@ -15,7 +15,7 @@ php composer.phar require snowplow/referer-parser dev-master
 ## Usage
 
 ```php
-use Library\Snowplow\RefererParser\Parser;
+use Snowplow\RefererParser\Library\Parser;
 
 $parser = new Parser();
 $referer = $parser->parse(

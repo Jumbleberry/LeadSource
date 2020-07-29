@@ -1,8 +1,8 @@
 <?php
-namespace Library\Snowplow\RefererParser;
+namespace Snowplow\RefererParser\Library;
 
-use Library\Snowplow\RefererParser\Config\ConfigReaderInterface;
-use Library\Snowplow\RefererParser\Config\JsonConfigReader;
+use Snowplow\RefererParser\Library\Config\ConfigReaderInterface;
+use Snowplow\RefererParser\Library\Config\JsonConfigReader;
 
 class Parser
 {

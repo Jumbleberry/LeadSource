@@ -1,5 +1,5 @@
 <?php
-namespace Library\Snowplow\RefererParser\Exception;
+namespace Snowplow\RefererParser\Library\Exception;
 
 use InvalidArgumentException as BaseInvalidArgumentException;
 

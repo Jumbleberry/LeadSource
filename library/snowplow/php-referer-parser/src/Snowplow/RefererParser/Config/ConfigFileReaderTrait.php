@@ -1,7 +1,7 @@
 <?php
-namespace Library\Snowplow\RefererParser\Config;
+namespace Snowplow\RefererParser\Library\Config;
 
-use Library\Snowplow\RefererParser\Exception\InvalidArgumentException;
+use Snowplow\RefererParser\Library\Exception\InvalidArgumentException;
 
 trait ConfigFileReaderTrait
 {

@@ -2,9 +2,9 @@
 
 namespace Snowplow\RefererParser;
 
-use Library\Snowplow\RefererParser\Config\ConfigReaderInterface;
-use Library\Snowplow\RefererParser\Parser;
-use Library\Snowplow\RefererParser\Referer;
+use Snowplow\RefererParser\Library\Config\ConfigReaderInterface;
+use Snowplow\RefererParser\Library\Parser;
+use Snowplow\RefererParser\Library\Referer;
 
 class SnowplowParser extends Parser
 {
