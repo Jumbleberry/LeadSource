@@ -1,5 +1,5 @@
 <?php
-namespace Snowplow\RefererParser;
+namespace Library\Snowplow\RefererParser;
 
 class Referer
 {

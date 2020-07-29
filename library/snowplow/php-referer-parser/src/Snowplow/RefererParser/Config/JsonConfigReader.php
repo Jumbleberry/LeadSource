@@ -1,5 +1,5 @@
 <?php
-namespace Snowplow\RefererParser\Config;
+namespace Library\Snowplow\RefererParser\Config;
 
 class JsonConfigReader implements ConfigReaderInterface
 {

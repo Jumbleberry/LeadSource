@@ -1,7 +1,7 @@
 <?php
-namespace Snowplow\RefererParser\Tests;
+namespace Library\Snowplow\RefererParser\Tests;
 
-use Snowplow\RefererParser\Parser;
+use Library\Snowplow\RefererParser\Parser;
 
 class DefaultParserTest extends AbstractParserTest
 {

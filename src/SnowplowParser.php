@@ -1,10 +1,10 @@
 <?php
 
-namespace JBX\RefererParser;
+namespace Snowplow\RefererParser;
 
-use Snowplow\RefererParser\Config\ConfigReaderInterface;
-use Snowplow\RefererParser\Parser;
-use Snowplow\RefererParser\Referer;
+use Library\Snowplow\RefererParser\Config\ConfigReaderInterface;
+use Library\Snowplow\RefererParser\Parser;
+use Library\Snowplow\RefererParser\Referer;
 
 class SnowplowParser extends Parser
 {
