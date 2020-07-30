@@ -20,7 +20,7 @@ class SnowplowParser extends Parser
     {
         $referrer = $this->parseReferrerUrl($pageReferrer, $pageUrl);
 
-        if (!empty($referrer->getSource())) {
+        if ($referrer && !empty($referrer->getSource())) {
             return $referrer;
         }
         if ($useragent) {

@@ -196,4 +196,15 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals(true, $referrer->isKnown());
         $this->assertEquals(true, $referrer->isValid());
     }
+    public function testParseReferrer_withEmptyObject()
+    {
+        $source = [
+            'page_url'      => '',
+            'page_referrer' => '',
+            'useragent'     => '',
+        ];
+        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $this->assertEquals(null, $referrer);
+    }
+
 }
