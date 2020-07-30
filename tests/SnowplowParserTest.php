@@ -196,15 +196,61 @@ class SnowplowParserTest extends TestCase
         $this->assertEquals(true, $referrer->isKnown());
         $this->assertEquals(true, $referrer->isValid());
     }
+
     public function testParseReferrer_withEmptyObject()
     {
         $source = [
-            'page_url'      => '',
-            'page_referrer' => '',
-            'useragent'     => '',
+            'page_url'      => null,
+            'page_referrer' => null,
+            'useragent'     => null,
         ];
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
-        $this->assertEquals(null, $referrer);
+        $this->assertEquals(null, $referrer->getSource());
+    }
+
+    public function testParseReferrer_withPageUrlOnly()
+    {
+        $source = [
+            'page_url'      =>  'https://cafe-metropol.com/exit.php?clid=107378967&lid=0&l=26581&o=7613&v=85322&e=9857&d=0&variant=25909608321&fbclid=IwAR2FvdV20_HVSDuOFcC-mxkO1iFJk7Thxc-HcwymnXUIl5C1FBThbuL5PGQ',
+            'page_referrer' => null,
+            'useragent'     => null,
+        ];
+        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $this->assertEquals('Facebook', $referrer->getSource());
+    }
+
+    public function testParseReferrer_withPageReferrerOnly()
+    {
+        $source = [
+            'page_url'      => null,
+            'page_referrer' => 'https://cafe-metropol.com/exit.php?clid=107378967&lid=0&l=26581&o=7613&v=85322&e=9857&d=0&variant=25909608321&fbclid=IwAR2FvdV20_HVSDuOFcC-mxkO1iFJk7Thxc-HcwymnXUIl5C1FBThbuL5PGQ',
+            'useragent'     => null,
+        ];
+        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $this->assertEquals('Facebook', $referrer->getSource());
+    }
+
+    public function testParseReferrer_withUserAgentOnly()
+    {
+        $source = [
+            'page_url'      => null,
+            'page_referrer' => null,
+            'useragent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.5.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5]',
+        ];
+        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $this->assertEquals('Facebook', $referrer->getSource());
+    }
+
+
+    public function testParseReferrer_everythingUnknown()
+    {
+        $source = [
+            'page_url'      => 'test',
+            'page_referrer' => 'test',
+            'useragent'     => 'test',
+        ];
+        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $this->assertEquals(null, $referrer->getSource());
     }
 
 }

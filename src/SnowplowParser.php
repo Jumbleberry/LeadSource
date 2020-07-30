@@ -24,8 +24,9 @@ class SnowplowParser extends Parser
             return $referrer;
         }
         if ($useragent) {
-            return $this->parseUseragent($useragent);
+            return $referrer = $this->parseUseragent($useragent);
         }
+        return Referer::createUnknown();
     }
 
     public function parseReferrerUrl($pageReferrer = null, $pageUrl = null)
@@ -43,14 +44,12 @@ class SnowplowParser extends Parser
 
     public function parseUseragent($useragent)
     {
-        if ($useragent) {
-            foreach ($this->additionalConfig as $medium => $sources) {
-                foreach ($sources as $sourceName => $sourceParam) {
-                    if (isset($sourceParam['regexes'])) {
-                        foreach ($sourceParam['regexes'] as $regex) {
-                            if (preg_match('/' . str_replace('/', '\/', str_replace('\/', '/', $regex)) . '/i', $useragent, $matches)) {
-                                return Referer::createKnown($medium, $sourceName, '');
-                            }
+        foreach ($this->additionalConfig as $medium => $sources) {
+            foreach ($sources as $sourceName => $sourceParam) {
+                if (isset($sourceParam['regexes'])) {
+                    foreach ($sourceParam['regexes'] as $regex) {
+                        if (preg_match('/' . str_replace('/', '\/', str_replace('\/', '/', $regex)) . '/i', $useragent, $matches)) {
+                            return Referer::createKnown($medium, $sourceName, '');
                         }
                     }
                 }
