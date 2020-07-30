@@ -82,7 +82,7 @@ class SnowplowParser extends Parser
 
     protected static function createAdditionalConfig()
     {
-        $file = file_get_contents('data/referers.json');
+        $file = file_get_contents(__DIR__.'/../data/referers.json',true);
         return json_decode($file, true);
     }
 
