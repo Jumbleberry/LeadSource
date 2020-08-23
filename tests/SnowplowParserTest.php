@@ -1,7 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Snowplow\RefererParser\SnowplowParser;
+use PHPUnit\Framework\TestCase;
 
 class SnowplowParserTest extends TestCase
 {
@@ -177,8 +177,8 @@ class SnowplowParserTest extends TestCase
             }
         }
 
-        //after additional parsing, for 5000 lines, 386 have empty ref_source, so 92.28% lead sources were found.
-        $this->assertEquals('386', $newEmptyRefSource);
+        //after additional parsing, for 5000 lines, 369 have empty ref_source, so 92.62% lead sources were found.
+        $this->assertEquals('369', $newEmptyRefSource);
     }
 
     public function testParseObject()

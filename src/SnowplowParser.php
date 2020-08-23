@@ -2,18 +2,18 @@
 
 namespace Snowplow\RefererParser;
 
-use Snowplow\RefererParser\Library\Config\ConfigReaderInterface;
-use Snowplow\RefererParser\Library\Parser;
 use Snowplow\RefererParser\Library\Referer;
+use Snowplow\RefererParser\Library\Parser;
+use Snowplow\RefererParser\Library\Config\ConfigReaderInterface;
 
 class SnowplowParser extends Parser
 {
-    public $additionalConfig;
+    protected $additionalConfig;
 
     public function __construct(ConfigReaderInterface $configReader = null, array $internalHosts = [])
     {
         parent::__construct($configReader, $internalHosts);
-        $this->additionalConfig = static::createAdditionalConfig();
+        $this->additionalConfig = static::getAdditionalConfig();
     }
 
     public function parseReferrer($pageReferrer = null, $pageUrl = null, $useragent = null)
@@ -22,10 +22,10 @@ class SnowplowParser extends Parser
 
         if ($referrer && !empty($referrer->getSource())) {
             return $referrer;
+        } else if (!empty($useragent)) {
+            return $this->parseUseragent($useragent);
         }
-        if ($useragent) {
-            return $referrer = $this->parseUseragent($useragent);
-        }
+
         return Referer::createUnknown();
     }
 
@@ -48,7 +48,7 @@ class SnowplowParser extends Parser
             foreach ($sources as $sourceName => $sourceParam) {
                 if (isset($sourceParam['regexes'])) {
                     foreach ($sourceParam['regexes'] as $regex) {
-                        if (preg_match('/' . str_replace('/', '\/', str_replace('\/', '/', $regex)) . '/i', $useragent, $matches)) {
+                        if (preg_match('~' . $regex . '~i', $useragent, $matches)) {
                             return Referer::createKnown($medium, $sourceName, '');
                         }
                     }
@@ -61,16 +61,13 @@ class SnowplowParser extends Parser
 
     protected function parseUrlQuery($referrerUrl, $pageUrl)
     {
-        $query1 = explode('&', parse_url($referrerUrl, PHP_URL_QUERY));
-        $query2 = explode('&', parse_url($pageUrl, PHP_URL_QUERY));
-
-        $queryParams = array_map(function ($param) {
-            return explode('=', $param)[0];
-        }, array_merge($query1, $query2));
+        parse_str(parse_url($referrerUrl, PHP_URL_QUERY), $query1);
+        parse_str(parse_url($pageUrl, PHP_URL_QUERY), $query2);
+        $queryParams = array_merge($query1, $query2);
 
         foreach ($this->additionalConfig as $medium => $sources) {
             foreach ($sources as $sourceName => $sourceParam) {
-                if (isset($sourceParam['identifier']) && in_array($sourceParam['identifier'], $queryParams)) {
+                if (isset($sourceParam['identifier']) && array_key_exists($sourceParam['identifier'], $queryParams)) {
                     return Referer::createKnown($medium, $sourceName, '');
                 }
             }
@@ -79,9 +76,9 @@ class SnowplowParser extends Parser
         return Referer::createUnknown();
     }
 
-    protected static function createAdditionalConfig()
+    protected static function getAdditionalConfig()
     {
-        $file = file_get_contents(__DIR__.'/../data/referers.json',true);
+        $file = file_get_contents(__DIR__ . '/../data/referers.json', true);
         return json_decode($file, true);
     }
 

@@ -27,6 +27,12 @@
       ],
       "medium": "social"
     },
+    "Pinterest": {
+      "regexes": [
+        "Pinterest"
+      ],
+      "medium": "social"
+    },
     "Outbrain": {
       "domains": [
         "paid.outbrain.com"
@@ -34,6 +40,10 @@
     }
   },
   "search": {
+    "Google": {
+      "identifier": "gclid",
+      "medium": "search"
+    },
     "Bing": {
       "identifier": "msclkid",
       "medium": "search"
