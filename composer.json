@@ -1,13 +1,17 @@
 {
-  "name": "jumbleberry/php-referer-parser",
-  "description": "Snowplow Refer(r)er parser for PHP with useragent",
+  "name": "jumbleberry/leadsource",
+  "description": "Lead Source Parser",
   "minimum-stability": "stable",
   "type": "library",
   "authors": [
     {
       "name": "Paulina Walas",
       "email": "paulina.walas@jumbleberry.com"
-    }
+    },
+    {
+        "name": "Ian Elliott",
+        "email": "ian@jumbleberry.com"
+      }
   ],
   "require-dev": {
     "phpunit/phpunit": "9.1.5"

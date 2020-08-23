@@ -16,6 +16,11 @@ class SnowplowParser extends Parser
         $this->additionalConfig = static::getAdditionalConfig();
     }
 
+    public function parseLeadSource($pageReferrer = null, $pageUrl = null, $useragent = null) {
+        $source = $this->parseReferrer($pageReferrer, $pageUrl, $useragent);
+        return $source->getSource() ?: 'Other';
+    }
+
     public function parseReferrer($pageReferrer = null, $pageUrl = null, $useragent = null)
     {
         $referrer = $this->parseReferrerUrl($pageReferrer, $pageUrl);
