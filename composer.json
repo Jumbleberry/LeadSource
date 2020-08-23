@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Snowplow\\RefererParser\\": "src/",
+      "Jumbleberry\\LeadSource\\": "src/",
       "Snowplow\\RefererParser\\Library\\": "library/snowplow/php-referer-parser/src/Snowplow/RefererParser/"
     }
   }

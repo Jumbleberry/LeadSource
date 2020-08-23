@@ -1,18 +1,18 @@
 <?php
 
-use Snowplow\RefererParser\SnowplowParser;
 use PHPUnit\Framework\TestCase;
+use Jumbleberry\LeadSource\Parser;
 
-class SnowplowParserTest extends TestCase
+class ParserTest extends TestCase
 {
     /**
-     * @var SnowplowParser
+     * @var Parser
      */
     private $parser;
 
     public function setUp(): void
     {
-        $this->parser = new SnowplowParser();
+        $this->parser = new Parser();
     }
 
     public function testParseReferrer_fromPageReferrer_Facebook()

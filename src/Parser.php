@@ -1,12 +1,12 @@
 <?php
 
-namespace Snowplow\RefererParser;
+namespace Jumbleberry\LeadSource;
 
 use Snowplow\RefererParser\Library\Referer;
-use Snowplow\RefererParser\Library\Parser;
+use Snowplow\RefererParser\Library\Parser as RefererParser;
 use Snowplow\RefererParser\Library\Config\ConfigReaderInterface;
 
-class SnowplowParser extends Parser
+class Parser extends RefererParser
 {
     protected $additionalConfig;
 
