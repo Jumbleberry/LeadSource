@@ -1,4 +1,4 @@
-# referer-parser PHP library
+# LeadSource PHP library
 
 This is the implementation of [php-referer-parser], the library for extracting search marketing data from referer _(sic)_ URLs or from UserAgents.
 
@@ -11,9 +11,9 @@ JBX version extend the php-referer-parser for parse UserAgent .
 ## Usage
 
 ```php
-use JBX\RefererParser\SnowplowParser;
+use Jumbleberry\LeadSource\Parser;
 
-$parser = new SnowplowParser();
+$parser = new Parser();
 $referrer = $parser->parse(
     'https://article.onnit.com/productivity/?utm_medium=jumbleberry&utm_campaign=affiliate&utm_content=alpha-brain-offer-jmbb&utm_source=384596&jmb_cid=NTG9B-GlRjw5rV28B9OUj5jIJZ0RDe1kq-LTuX1Wdx2Dsj22epgfKB5pW7XhPa16%2FFB%2FV%2FAB-ST',
     'http://m.facebook.com',
