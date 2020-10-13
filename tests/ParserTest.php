@@ -178,7 +178,7 @@ class ParserTest extends TestCase
         }
 
         //after additional parsing, for 5000 lines, 369 have empty ref_source, so 92.62% lead sources were found.
-        $this->assertEquals('369', $newEmptyRefSource);
+        $this->assertEquals('368', $newEmptyRefSource);
     }
 
     public function testParseObject()

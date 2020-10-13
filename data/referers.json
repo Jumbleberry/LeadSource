@@ -2,9 +2,9 @@
   "social": {
     "Facebook": {
       "regexes": [
-        "FBAN/FBIOS;FBDV",
+        "FBAN",
         "FB_IAB",
-        "FBMD/iPhone"
+        "FBAV"
       ],
       "identifier": "fbclid",
       "medium": "social"
