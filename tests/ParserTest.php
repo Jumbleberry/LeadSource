@@ -75,6 +75,20 @@ class ParserTest extends TestCase
         $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Facebook', $referrer->getSource());
     }
+
+    public function testParseReferrer_fromPageReferrer_withTtclid_TikTok()
+    {
+
+        $source = [
+            'page_url'      => 'https://goli.com/?utm_source=jumbleberry&utm_medium=383591&utm_campaign=jbbuy&click_id=03eNPLNCE62qmxzeC81gZU43oQj40unNTc7pBIBDEB7ko6ueqB4ZPoV9ehvMf3AX%%2F%2F&ttclid=EIGo19aOjf8CGIWIl6Tou5bDXyCGjNTimr2Ww18wDDjpza0FQiIyMDIwMTIwODAxMDQyNDAxMDEwNzEyODA1OTAzRUJEMjA1SOnNrQU',
+            'page_referrer' => '',
+            'useragent'     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362',
+            'refr_source'   => null
+        ];
+        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $this->assertEquals('TikTok', $referrer->getSource());
+    }
+
     public function testParseReferrer_fromPageReferrer_Outbraink()
     {
         $source = [
@@ -147,11 +161,23 @@ class ParserTest extends TestCase
         $this->assertEquals('Twitter', $referrer->getSource());
     }
 
-    public function testParseReferrer_fileWith5000Lines()
+    public function testParseReferrer_fromUserAgent_TikTok()
+    {
+        $source = [
+            'page_url'      => 'https://goli.com/',
+            'page_referrer' => 'https://goli.com/',
+            'useragent'     => 'Mozilla/5.0 (Linux; Android 9; LM-X420 Build/PKQ1.190302.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.116 Mobile Safari/537.36 trill_2021707410 JsSdk/1.0 NetType/4G Channel/googleplay AppName/musical_ly app_version/17.7.41 ByteLocale/en ByteFullLocale/en Region/US',
+            'refr_source'   => null
+        ];
+        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $this->assertEquals('TikTok', $referrer->getSource());
+    }
+
+    public function testParseReferrer_fileWith5002Lines()
     {
         $emptyRefSource = 0;
-        $h = fopen("tests/data/referrers5000.csv", "r");
-        while (($row = fgetcsv($h, 5000, "|")) !== FALSE)
+        $h = fopen("tests/data/referrers5002.csv", "r");
+        while (($row = fgetcsv($h, 5002, "|")) !== FALSE)
         {
             $rows[] = $row;
             if (empty($row[3]))
@@ -159,8 +185,8 @@ class ParserTest extends TestCase
         }
         fclose($h);
 
-        //File has 5000 lines, 1598 lines have empty ref_source, so this means that the library found 68.04% lead sources.
-        $this->assertEquals('5000', count($rows));
+        //File has 5002 lines, 1598 lines have empty ref_source, so this means that the library found 68.04% lead sources.
+        $this->assertEquals('5002', count($rows));
         $this->assertEquals('1598', $emptyRefSource);
 
         $newEmptyRefSource = 0;
@@ -177,7 +203,7 @@ class ParserTest extends TestCase
             }
         }
 
-        //after additional parsing, for 5000 lines, 369 have empty ref_source, so 92.62% lead sources were found.
+        //after additional parsing, for 5002 lines, 369 have empty ref_source, so 92.62% lead sources were found.
         $this->assertEquals('368', $newEmptyRefSource);
     }
 
