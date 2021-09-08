@@ -40,11 +40,6 @@
           "TikTok"
       ],
       "identifier": "ttclid"
-    },
-    "Outbrain": {
-      "domains": [
-        "paid.outbrain.com"
-      ]
     }
   },
   "search": {
