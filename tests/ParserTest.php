@@ -1,7 +1,7 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use Jumbleberry\LeadSource\Parser;
+use PHPUnit\Framework\TestCase;
 
 class ParserTest extends TestCase
 {
@@ -192,8 +192,8 @@ class ParserTest extends TestCase
         $newEmptyRefSource = 0;
         foreach ($rows as $source) {
             $ref = $this->parser->parseReferrer($source[1], $source[0], $source[2]);
-
-            if (!$ref->isKnown()) {
+            
+            if (empty($ref->getSource())) {
                 $newEmptyRefSource++;
             } else {
                 // compare previous refr_source is the same as result from parseReferrer
@@ -203,8 +203,8 @@ class ParserTest extends TestCase
             }
         }
 
-        //after additional parsing, for 5002 lines, 369 have empty ref_source, so 92.62% lead sources were found.
-        $this->assertEquals('368', $newEmptyRefSource);
+        //after additional parsing, for 5002 lines, 332 have empty ref_source, so 93.36% lead sources were found.
+        $this->assertEquals('332', $newEmptyRefSource);
     }
 
     public function testParseObject()

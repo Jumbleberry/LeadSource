@@ -13,5 +13,7 @@ final class Medium
 
     const EMAIL = 'email';
 
+    const DISPLAY = 'display';
+
     const INVALID = 'invalid';
 }

@@ -1,55 +1,78 @@
 {
-  "social": {
-    "Facebook": {
-      "regexes": [
-        "FBAN",
-        "FB_IAB",
-        "FBAV"
-      ],
-      "identifier": "fbclid",
-      "medium": "social"
+    "social": {
+        "Facebook": {
+            "regexes": [
+                "FBAN",
+                "FB_IAB",
+                "FBAV"
+            ],
+            "identifier": "fbclid"
+        },
+        "Instagram": {
+            "regexes": [
+                "Instagram"
+            ]
+        },
+        "Snapchat": {
+            "regexes": [
+                "Snapchat"
+            ]
+        },
+        "Twitter": {
+            "regexes": [
+                "Twitter"
+            ]
+        },
+        "Pinterest": {
+            "regexes": [
+                "Pinterest"
+            ]
+        },
+        "TikTok": {
+            "regexes": [
+                "musical_ly",
+                "ByteDance",
+                "TikTok"
+            ],
+            "identifier": "ttclid"
+        }
     },
-    "Instagram": {
-      "regexes": [
-        "Instagram"
-      ],
-      "medium": "social"
+    "search": {
+        "Google": {
+            "identifier": ["gbraid"]
+        },
+        "Bing": {
+            "identifier": "msclkid"
+        }
     },
-    "Snapchat": {
-      "regexes": [
-        "Snapchat"
-      ],
-      "medium": "social"
-    },
-    "Twitter": {
-      "regexes": [
-        "Twitter"
-      ],
-      "medium": "social"
-    },
-    "Pinterest": {
-      "regexes": [
-        "Pinterest"
-      ],
-      "medium": "social"
-    },
-    "TikTok": {
-      "regexes": [
-          "musical_ly",
-          "ByteDance",
-          "TikTok"
-      ],
-      "identifier": "ttclid"
+    "display": {
+        "Google": {
+            "identifier": ["gclid", "wbraid"]
+        },
+        "Facebook": {},
+        "mMedia": {},
+        "Apple": {},
+        "Adknowledge": {},
+        "Yahoo!": {},
+        "Outbrain": {
+            "domains": [
+                "paid.outbrain.com"
+            ],
+            "identifier": ["outbrain", "ob_click_id"]
+        },
+        "Taboola": {
+            "domains": [
+                "trc.taboola.com",
+                "api.taboola.com"
+            ],
+            "identifier": "taboola"
+        },
+        "Epom": {},
+        "Airpush": {},
+        "Leadbolt": {},
+        "Youtube": {},
+        "RevContent": {
+            "identifier": "rc_uuid"
+        }
     }
-  },
-  "search": {
-    "Google": {
-      "identifier": "gclid",
-      "medium": "search"
-    },
-    "Bing": {
-      "identifier": "msclkid",
-      "medium": "search"
-    }
-  }
 }

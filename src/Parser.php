@@ -2,9 +2,9 @@
 
 namespace Jumbleberry\LeadSource;
 
-use Snowplow\RefererParser\Library\Referer;
-use Snowplow\RefererParser\Library\Parser as RefererParser;
 use Snowplow\RefererParser\Library\Config\ConfigReaderInterface;
+use Snowplow\RefererParser\Library\Parser as RefererParser;
+use Snowplow\RefererParser\Library\Referer;
 
 class Parser extends RefererParser
 {
@@ -16,7 +16,8 @@ class Parser extends RefererParser
         $this->additionalConfig = static::getAdditionalConfig();
     }
 
-    public function parseLeadSource($pageReferrer = null, $pageUrl = null, $useragent = null) {
+    public function parseLeadSource($pageReferrer = null, $pageUrl = null, $useragent = null)
+    {
         $source = $this->parseReferrer($pageReferrer, $pageUrl, $useragent);
         return $source->getSource() ?: 'Other';
     }
@@ -66,14 +67,23 @@ class Parser extends RefererParser
 
     protected function parseUrlQuery($referrerUrl, $pageUrl)
     {
-        parse_str(parse_url($referrerUrl, PHP_URL_QUERY), $query1);
-        parse_str(parse_url($pageUrl, PHP_URL_QUERY), $query2);
+        $referrerUrlQuery = strtolower(parse_url($referrerUrl, PHP_URL_QUERY));
+        $pageUrlQuery     = strtolower(parse_url($pageUrl, PHP_URL_QUERY));
+        $query            = $referrerUrlQuery . $pageUrlQuery;
+
+        parse_str($referrerUrlQuery, $query1);
+        parse_str($pageUrlQuery, $query2);
         $queryParams = array_merge($query1, $query2);
 
         foreach ($this->additionalConfig as $medium => $sources) {
             foreach ($sources as $sourceName => $sourceParam) {
-                if (isset($sourceParam['identifier']) && array_key_exists($sourceParam['identifier'], $queryParams)) {
-                    return Referer::createKnown($medium, $sourceName, '');
+                if (isset($sourceParam['identifier'])) {
+                    $identifiers = is_array($sourceParam['identifier']) ? $sourceParam['identifier'] : [$sourceParam['identifier']];
+                    foreach ($identifiers as $identifier) {
+                        if ((array_key_exists($identifier, $queryParams) || strpos($query, $identifier) !== false)) {
+                            return Referer::createKnown($medium, $sourceName, '');
+                        }
+                    }
                 }
             }
         }
