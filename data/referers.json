@@ -32,7 +32,8 @@
             "regexes": [
                 "musical_ly",
                 "ByteDance",
-                "TikTok"
+                "TikTok",
+                "trill_"
             ],
             "identifier": "ttclid"
         }
