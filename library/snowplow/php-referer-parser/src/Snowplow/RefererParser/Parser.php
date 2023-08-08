@@ -1,4 +1,5 @@
 <?php
+
 namespace Snowplow\RefererParser\Library;
 
 use Snowplow\RefererParser\Library\Config\ConfigReaderInterface;
@@ -36,9 +37,11 @@ class Parser
 
         $pageUrlParts = static::parseUrl($pageUrl);
 
-        if ($pageUrlParts
+        if (
+            $pageUrlParts
             && $pageUrlParts['host'] === $refererParts['host']
-            || in_array($refererParts['host'], $this->internalHosts)) {
+            || in_array($refererParts['host'], $this->internalHosts)
+        ) {
             return Referer::createInternal();
         }
 
@@ -50,7 +53,7 @@ class Parser
 
         $searchTerm = null;
         if ($referer['parameters']) {
-            parse_str($refererParts['query'], $queryParts);
+            parse_str($refererParts['query'] ?? '', $queryParts);
             foreach ($referer['parameters'] as $parameter) {
                 $searchTerm = isset($queryParts[$parameter]) ? $queryParts[$parameter] : $searchTerm;
             }

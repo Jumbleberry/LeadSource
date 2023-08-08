@@ -2,11 +2,13 @@
 
 namespace Jumbleberry\LeadSource;
 
+use Serializable;
 use Snowplow\RefererParser\Library\Config\ConfigReaderInterface;
+use Snowplow\RefererParser\Library\Config\JsonConfigReader;
 use Snowplow\RefererParser\Library\Parser as RefererParser;
 use Snowplow\RefererParser\Library\Referer;
 
-class Parser extends RefererParser
+class Parser extends RefererParser implements Serializable
 {
     protected $additionalConfig;
 
@@ -67,8 +69,8 @@ class Parser extends RefererParser
 
     protected function parseUrlQuery($referrerUrl, $pageUrl)
     {
-        $referrerUrlQuery = strtolower(parse_url($referrerUrl, PHP_URL_QUERY));
-        $pageUrlQuery     = strtolower(parse_url($pageUrl, PHP_URL_QUERY));
+        $referrerUrlQuery = strtolower(parse_url($referrerUrl ?? '', PHP_URL_QUERY) ?? '');
+        $pageUrlQuery     = strtolower(parse_url($pageUrl ?? '', PHP_URL_QUERY) ?? '');
         $query            = $referrerUrlQuery . $pageUrlQuery;
 
         parse_str($referrerUrlQuery, $query1);
@@ -110,5 +112,31 @@ class Parser extends RefererParser
         }
 
         return array_merge(['query' => null, 'path' => '/'], $parts);
+    }
+
+    public function serialize(): string
+    {
+        return function_exists('igbinary_serialize')
+            ? \igbinary_serialize($this->__serialize())
+            : serialize($this->__serialize());
+    }
+
+    public function __serialize(): array
+    {
+        return [$this->configReader, $this->additionalConfig];
+    }
+
+    public function unserialize($data): void
+    {
+        $this->__unserialize(
+            substr($data, 0, 3) === "\x00\x00\x00"
+                ? \igbinary_unserialize($data)
+                : unserialize($data)
+        );
+    }
+
+    public function __unserialize(array $serialized): void
+    {
+        [$this->configReader, $this->additionalConfig] = $serialized;
     }
 }

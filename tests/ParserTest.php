@@ -8,11 +8,11 @@ class ParserTest extends TestCase
     /**
      * @var Parser
      */
-    private $parser;
+    private static $parser;
 
-    public function setUp(): void
+    public static function setUpBeforeClass(): void
     {
-        $this->parser = new Parser();
+        static::$parser = igbinary_unserialize(igbinary_serialize(new Parser()));
     }
 
     public function testParseReferrer_fromPageReferrer_Facebook()
@@ -23,7 +23,7 @@ class ParserTest extends TestCase
             'useragent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.3.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5;FBCR/]',
             'refr_source'   => 'Facebook'
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Facebook', $referrer->getSource());
     }
 
@@ -35,7 +35,7 @@ class ParserTest extends TestCase
             'useragent'     => "Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1",
             'refr_source'   => 'Youtube'
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Youtube', $referrer->getSource());
     }
 
@@ -47,7 +47,7 @@ class ParserTest extends TestCase
             'useragent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Mobile/15E148 Safari/604.1',
             'refr_source'   => 'Google'
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Google', $referrer->getSource());
     }
 
@@ -59,7 +59,7 @@ class ParserTest extends TestCase
             'useragent'     => "Mozilla/5.0 (Linux; Android 9; SM-G950W Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.101 Mobile Safari/537.36 Instagram 145.0.0.32.119 Android (28/9; 480dpi; 1080x2076; samsung; SM-G950W; dreamqltecan; qcom; en_CA; 219308759)",
             'refr_source'   => 'Instagram'
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Instagram', $referrer->getSource());
     }
 
@@ -72,7 +72,7 @@ class ParserTest extends TestCase
             'useragent'     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362',
             'refr_source'   => null
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Facebook', $referrer->getSource());
     }
 
@@ -85,7 +85,7 @@ class ParserTest extends TestCase
             'useragent'     => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362',
             'refr_source'   => null
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('TikTok', $referrer->getSource());
     }
 
@@ -97,7 +97,7 @@ class ParserTest extends TestCase
             'useragent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/69.1.238102067 Mobile/15E148 Safari/605.1',
             'refr_source'   => 'Outbrain'
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Outbrain', $referrer->getSource());
     }
 
@@ -109,7 +109,7 @@ class ParserTest extends TestCase
             'useragent'     => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15',
             'refr_source'   => null
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Bing', $referrer->getSource());
     }
 
@@ -121,7 +121,7 @@ class ParserTest extends TestCase
             'useragent'     => "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.5 Mobile/15E148 Snapchat/10.80.5.79 (like Safari/604.1)",
             'refr_source'   => null
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Snapchat', $referrer->getSource());
     }
 
@@ -133,7 +133,7 @@ class ParserTest extends TestCase
             'useragent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.5.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5]',
             'refr_source'   => null
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Facebook', $referrer->getSource());
     }
 
@@ -145,7 +145,7 @@ class ParserTest extends TestCase
             'useragent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 146.0.0.21.122 (iPhone12,1; iOS 13_5_1; en_US; en-US; scale=2.00; 828x1792; 220223664)',
             'refr_source'   => null
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Instagram', $referrer->getSource());
     }
 
@@ -157,7 +157,7 @@ class ParserTest extends TestCase
             'useragent'     => 'Mozilla/5.0 (iPad; CPU OS 9_3_5 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G36 Twitter for iPhone/7.29.1',
             'refr_source'   => null
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Twitter', $referrer->getSource());
     }
 
@@ -169,7 +169,7 @@ class ParserTest extends TestCase
             'useragent'     => 'Mozilla/5.0 (Linux; Android 9; LM-X420 Build/PKQ1.190302.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/79.0.3945.116 Mobile Safari/537.36 trill_2021707410 JsSdk/1.0 NetType/4G Channel/googleplay AppName/musical_ly app_version/17.7.41 ByteLocale/en ByteFullLocale/en Region/US',
             'refr_source'   => null
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('TikTok', $referrer->getSource());
     }
 
@@ -177,8 +177,7 @@ class ParserTest extends TestCase
     {
         $emptyRefSource = 0;
         $h = fopen("tests/data/referrers5002.csv", "r");
-        while (($row = fgetcsv($h, 5002, "|")) !== FALSE)
-        {
+        while (($row = fgetcsv($h, 5002, "|")) !== FALSE) {
             $rows[] = $row;
             if (empty($row[3]))
                 $emptyRefSource++;
@@ -191,8 +190,8 @@ class ParserTest extends TestCase
 
         $newEmptyRefSource = 0;
         foreach ($rows as $source) {
-            $ref = $this->parser->parseReferrer($source[1], $source[0], $source[2]);
-            
+            $ref = static::$parser->parseReferrer($source[1], $source[0], $source[2]);
+
             if (empty($ref->getSource())) {
                 $newEmptyRefSource++;
             } else {
@@ -214,7 +213,7 @@ class ParserTest extends TestCase
             'page_referrer' => 'http://m.facebook.com',
             'useragent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.3.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5;FBCR/]',
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
 
         $this->assertEquals('Facebook', $referrer->getSource());
         $this->assertEquals('social', $referrer->getMedium());
@@ -230,7 +229,7 @@ class ParserTest extends TestCase
             'page_referrer' => null,
             'useragent'     => null,
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals(null, $referrer->getSource());
     }
 
@@ -241,7 +240,7 @@ class ParserTest extends TestCase
             'page_referrer' => null,
             'useragent'     => null,
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Facebook', $referrer->getSource());
     }
 
@@ -252,7 +251,7 @@ class ParserTest extends TestCase
             'page_referrer' => 'https://cafe-metropol.com/exit.php?clid=107378967&lid=0&l=26581&o=7613&v=85322&e=9857&d=0&variant=25909608321&fbclid=IwAR2FvdV20_HVSDuOFcC-mxkO1iFJk7Thxc-HcwymnXUIl5C1FBThbuL5PGQ',
             'useragent'     => null,
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Facebook', $referrer->getSource());
     }
 
@@ -263,7 +262,7 @@ class ParserTest extends TestCase
             'page_referrer' => null,
             'useragent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 [FBAN/FBIOS;FBDV/iPhone11,8;FBMD/iPhone;FBSN/iOS;FBSV/13.5.1;FBSS/2;FBID/phone;FBLC/en_US;FBOP/5]',
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals('Facebook', $referrer->getSource());
     }
 
@@ -275,8 +274,7 @@ class ParserTest extends TestCase
             'page_referrer' => 'test',
             'useragent'     => 'test',
         ];
-        $referrer = $this->parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
+        $referrer = static::$parser->parseReferrer($source['page_referrer'], $source['page_url'], $source['useragent']);
         $this->assertEquals(null, $referrer->getSource());
     }
-
 }
