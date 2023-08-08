@@ -75,5 +75,10 @@
         "RevContent": {
             "identifier": "rc_uuid"
         }
+    },
+    "email": {
+        "Klaviyo": {
+            "identifier": "_kx"
+        }
     }
 }
