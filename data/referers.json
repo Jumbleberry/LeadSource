@@ -8,6 +8,9 @@
             ],
             "identifier": "fbclid"
         },
+        "Rumble": {
+            "identifier": "_raclid"
+        },
         "Instagram": {
             "regexes": [
                 "Instagram"
