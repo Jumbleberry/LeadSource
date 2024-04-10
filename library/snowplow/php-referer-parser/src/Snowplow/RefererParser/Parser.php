@@ -35,10 +35,12 @@ class Parser
             return Referer::createInvalid();
         }
 
-        $pageUrlParts = static::parseUrl($pageUrl);
+        $pageUrlParts = static::parseUrl($pageUrl ?? '');
 
         if (
             $pageUrlParts
+            && isset($pageUrlParts['host'])
+            && isset($refererParts['host'])
             && $pageUrlParts['host'] === $refererParts['host']
             || in_array($refererParts['host'], $this->internalHosts)
         ) {
